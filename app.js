@@ -17,7 +17,7 @@ const localStrategy = require('passport-local').Strategy
 const ExtractJWT = require('passport-jwt').ExtractJwt
 
 const { body, validationResult } = require('express-validator')
-const { User, Pastes, Tags } = require('./database')
+const { User, Pastes, Clients, Tags } = require('./database')
 const { memcached } = require('./memcache')
 
 

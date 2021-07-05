@@ -36,7 +36,7 @@ router.post(
 
                             const milliseconds = Date.now()
                             const three_hours = milliseconds + 10800000
-                            const body = { sub: user.id, iss: 'pastebin2.com', email: user.email, iat: milliseconds, exp: three_hours }
+                            const body = { sub: user.id, iss: 'shiftware.digital', email: user.email, iat: milliseconds, exp: three_hours }
                             const token = jwt.sign({ user: body }, process.env.JWT_SECRET)
 
                             return res.json({ token })

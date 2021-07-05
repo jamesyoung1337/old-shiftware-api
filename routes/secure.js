@@ -4,7 +4,7 @@ const crypto = require('crypto')
 
 const router = express.Router()
 
-const { User, Pastes, Tags } = require('../database')
+const { User, Pastes, Clients, Tags } = require('../database')
 const { memcached } = require('../memcache')
 
 router.get(
@@ -23,9 +23,8 @@ router.get(
                 // req.user is the token and not the User model
                 res.json({
                     success: true,
-                    message: 'You made it to the secure route',
-                    user: req.user,
-                    object: data
+                    message: 'User information',
+                    user: data
                 })
             })
         }
@@ -35,18 +34,25 @@ router.get(
             // req.user is the token and not the User model
             res.json({
                 success: true,
-                message: 'You made it to the secure route',
-                user: req.user,
-                object: data
+                message: 'User information',
+                user: data
             })
         }
     }
 )
 
-router.patch('/api/v1/profile',
-    async (req, res) => {
-
-})
+router.patch(
+    '/api/v1/profile',
+    async (req, res, next) => {
+        const email = req.user.email
+        User.update( { name: req.body.name }, { address: req.body.address }, { state: req.body.state },
+            { postcode: req.body.postcode }, { mobile: req.body.mobile }, { returning: true, where: { email: email }} ).then(
+                function([ rowsUpdate, [updatedUser] ]) {
+                    return res.json({ success: true, message: 'User updated', user: updatedUser })
+                }
+            ).catch(next)
+    }
+)
 
 router.get('/api/v1/uuid',
     async (req, res) => {
