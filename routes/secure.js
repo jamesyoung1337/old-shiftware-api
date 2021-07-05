@@ -44,13 +44,22 @@ router.get(
 router.patch(
     '/api/v1/profile',
     async (req, res, next) => {
-        const email = req.user.email
-        User.update( { name: req.body.name }, { address: req.body.address }, { state: req.body.state },
-            { postcode: req.body.postcode }, { mobile: req.body.mobile }, { returning: true, where: { email: email }} ).then(
-                function([ rowsUpdate, [updatedUser] ]) {
-                    return res.json({ success: true, message: 'User updated', user: updatedUser })
-                }
-            ).catch(next)
+        const email = req.body.email
+        await User.update( { name: req.body.name, address: req.body.address, state: req.body.state,
+            postcode: req.body.postcode, mobile: req.body.mobile, business_name: req.body.business_name,
+            abn: req.body.abn },
+            { where: { email: email } } )
+        // Store it for N seconds
+        const N = 60 * 3600
+        const user = await User.findOne({ where: { email: email }})
+        memcached.replace(`${email}_userobject`, user, N, function (err) {
+            if (err) {
+                console.log(`Memcached error: ${err}`)
+            }
+            res.json({ success: true,
+                message: 'User profile updated',
+                user: user })
+        })
     }
 )
 
