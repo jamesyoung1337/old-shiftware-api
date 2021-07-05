@@ -1,6 +1,8 @@
+require('dotenv').config()
+
 // TODO: Place all database stuff in separate module
 const { Sequelize, Op, DataTypes, Model } = require('sequelize')
-const sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/api')
+const sequelize = new Sequelize(`postgres://${process.env.PG_USER}:${process.env.PG_PASS}@localhost:5432/api`)
 
 // Optional stuff for testing connection
 // const connect = async () => {
