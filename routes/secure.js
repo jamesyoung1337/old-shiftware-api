@@ -43,7 +43,7 @@ router.get(
     }
 )
 
-r                                                                                                                                           m,,               outer.patch('/api/v1/profile',
+router.patch('/api/v1/profile',
     async (req, res) => {
 
 })
