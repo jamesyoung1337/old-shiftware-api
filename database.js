@@ -14,7 +14,7 @@ const sequelize = new Sequelize(`postgres://${process.env.PG_USER}:${process.env
 // TODO: Place in separate module
 const User = sequelize.define('User', {
     id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
@@ -57,7 +57,7 @@ const User = sequelize.define('User', {
 
 const Pastes = sequelize.define('Pastes', {
     id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
@@ -74,7 +74,7 @@ const Pastes = sequelize.define('Pastes', {
 
 const Clients = sequelize.define('Clients', {
     id: { 
-        type: DataTypes.UUIDV4,
+        type: DataTypes.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
